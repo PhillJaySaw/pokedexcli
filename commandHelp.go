@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func commandHelp() error {
+func commandHelp(config *paginationConfig) error {
 	fmt.Println()
 	fmt.Println("Available commands:")
 	fmt.Println()
