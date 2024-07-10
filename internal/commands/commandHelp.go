@@ -1,13 +1,13 @@
-package main
+package commands
 
 import "fmt"
 
-func commandHelp(config *paginationConfig) error {
+func Help(config *PaginationConfig) error {
 	fmt.Println()
 	fmt.Println("Available commands:")
 	fmt.Println()
 
-	for _, cmd := range getCommands() {
+	for _, cmd := range GetCommands() {
 		fmt.Printf("%s: %s\n", cmd.name, cmd.description)
 	}
 

@@ -1,4 +1,4 @@
-package main
+package pokeapi
 
 import (
 	"encoding/json"
@@ -7,7 +7,17 @@ import (
 	"net/http"
 )
 
-func getLocationArea(url string) (LocationAreaResponse, error) {
+type LocationAreaResponse struct {
+	Count    int     `json:"count"`
+	Next     string  `json:"next"`
+	Previous *string `json:"previous"`
+	Results  []struct {
+		Name string `json:"name"`
+		URL  string `json:"url"`
+	} `json:"results"`
+}
+
+func GetLocationArea(url string) (LocationAreaResponse, error) {
 	resp, err := http.Get(url)
 
 	if err != nil {

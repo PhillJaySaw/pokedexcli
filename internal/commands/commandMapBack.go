@@ -1,18 +1,21 @@
-package main
+package commands
 
-import "fmt"
+import (
+	"fmt"
+	pokeapi "github.com/philljaysaw/pokedexcli/internal/pokeApi"
+)
 
-func getPreviousLocationUrl(config *paginationConfig) string {
+func getPreviousLocationUrl(config *PaginationConfig) string {
 	if config.previousLocationArea == nil {
 		return "https://pokeapi.co/api/v2/location-area"
 	}
 
 	return *config.previousLocationArea
 }
-func commandMapBack(config *paginationConfig) error {
+func MapBack(config *PaginationConfig) error {
 	url := getPreviousLocationUrl(config)
 
-	locations, err := getLocationArea(url)
+	locations, err := pokeapi.GetLocationArea(url)
 
 	if err != nil {
 		return err

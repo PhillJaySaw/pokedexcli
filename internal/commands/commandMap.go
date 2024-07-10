@@ -1,20 +1,11 @@
-package main
+package commands
 
 import (
 	"fmt"
+	pokeapi "github.com/philljaysaw/pokedexcli/internal/pokeApi"
 )
 
-type LocationAreaResponse struct {
-	Count    int     `json:"count"`
-	Next     string  `json:"next"`
-	Previous *string `json:"previous"`
-	Results  []struct {
-		Name string `json:"name"`
-		URL  string `json:"url"`
-	} `json:"results"`
-}
-
-func getNextLocationUrl(config *paginationConfig) string {
+func getNextLocationUrl(config *PaginationConfig) string {
 	if config.nextLocationArea == "" {
 		return "https://pokeapi.co/api/v2/location-area"
 	}
@@ -22,10 +13,10 @@ func getNextLocationUrl(config *paginationConfig) string {
 	return config.nextLocationArea
 }
 
-func commandMap(config *paginationConfig) error {
+func Map(config *PaginationConfig) error {
 	url := getNextLocationUrl(config)
 
-	locations, err := getLocationArea(url)
+	locations, err := pokeapi.GetLocationArea(url)
 
 	if err != nil {
 		return err
