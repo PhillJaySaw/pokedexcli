@@ -1,1 +1,1 @@
-Simple pokedex REPL project fror learning Go.
+Simple pokedex REPL project for learning Go.
