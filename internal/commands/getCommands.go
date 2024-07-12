@@ -5,13 +5,13 @@ type PaginationConfig struct {
 	previousLocationArea *string
 }
 
+var Pagination PaginationConfig
+
 type CliCommand struct {
 	Callback    func(*PaginationConfig) error
 	name        string
 	description string
 }
-
-var Pagination PaginationConfig
 
 func GetCommands() map[string]CliCommand {
 	return map[string]CliCommand{
