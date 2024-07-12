@@ -1,14 +1,7 @@
-package commands
-
-type PaginationConfig struct {
-	nextLocationArea     string
-	previousLocationArea *string
-}
-
-var Pagination PaginationConfig
+package repl
 
 type CliCommand struct {
-	Callback    func(*PaginationConfig) error
+	Callback    func(*Config) error
 	name        string
 	description string
 }
@@ -26,12 +19,12 @@ func GetCommands() map[string]CliCommand {
 			description: "Exit the Pokedex",
 		},
 		"map": {
-			Callback:    Map,
+			Callback:    Mapf,
 			name:        "map",
 			description: "Display 20 locations in the pokemon world. Each subsequent call will display the next 20 locations.",
 		},
 		"mapb": {
-			Callback:    MapBack,
+			Callback:    MapB,
 			name:        "mapb",
 			description: "Display 20 locations in the pokemon world. Each subsequent call will display the next 20 locations.",
 		},

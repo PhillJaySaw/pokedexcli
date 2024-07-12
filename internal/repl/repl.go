@@ -5,10 +5,16 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/philljaysaw/pokedexcli/internal/commands"
+	"github.com/philljaysaw/pokedexcli/internal/pokeApi"
 )
 
-func StartRepl() {
+type Config struct {
+	Client               pokeapi.Client
+	nextLocationArea     *string
+	previousLocationArea *string
+}
+
+func StartRepl(cfg *Config) {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
@@ -16,13 +22,13 @@ func StartRepl() {
 		scanner.Scan()
 
 		prompt := scanner.Text()
-		command, exists := commands.GetCommands()[prompt]
+		command, exists := GetCommands()[prompt]
 
 		if !exists {
 			fmt.Println("Command not found")
 			continue
 		}
 
-		command.Callback(&commands.Pagination)
+		command.Callback(cfg)
 	}
 }

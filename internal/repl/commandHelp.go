@@ -1,8 +1,8 @@
-package commands
+package repl
 
 import "fmt"
 
-func Help(config *PaginationConfig) error {
+func Help(config *Config) error {
 	fmt.Println()
 	fmt.Println("Available commands:")
 	fmt.Println()

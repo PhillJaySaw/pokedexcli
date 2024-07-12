@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"net/http"
 )
 
 type LocationAreaResponse struct {
@@ -17,9 +16,13 @@ type LocationAreaResponse struct {
 	} `json:"results"`
 }
 
-func GetLocationArea(url string) (LocationAreaResponse, error) {
-	resp, err := http.Get(url)
+func (c *Client) GetLocationArea(locationUrl *string) (LocationAreaResponse, error) {
+	url := baseURL + "/location-area"
+	if locationUrl != nil {
+		url = *locationUrl
+	}
 
+	resp, err := c.httpClient.Get(url)
 	if err != nil {
 		return LocationAreaResponse{}, err
 	}
