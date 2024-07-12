@@ -23,12 +23,7 @@ func (c *Client) GetLocationArea(locationUrl *string) (res LocationAreaResponse,
 		url = *locationUrl
 	}
 
-	cachedResponse, ok := c.cache.Get(url)
-
-	if ok {
-		fmt.Println()
-		fmt.Printf("USED CACHED RESPONSE for %s", url)
-		fmt.Println()
+	if cachedResponse, ok := c.cache.Get(url); ok {
 		json.Unmarshal(cachedResponse, &res)
 
 		return
@@ -50,10 +45,6 @@ func (c *Client) GetLocationArea(locationUrl *string) (res LocationAreaResponse,
 	}
 
 	c.cache.Add(url, body)
-
-	fmt.Println()
-	fmt.Printf("ADDED CACHED RESPONSE for %s", url)
-	fmt.Println()
 
 	json.Unmarshal(body, &res)
 
