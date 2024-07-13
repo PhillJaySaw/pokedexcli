@@ -2,6 +2,8 @@ package repl
 
 import (
 	"fmt"
+	"net/url"
+	"path"
 )
 
 func getNextLocationUrl(config *Config) string {
@@ -20,17 +22,29 @@ func getPreviousLocationUrl(config *Config) string {
 	return *config.previousLocationArea
 }
 
-func Mapf(config *Config) error {
+func getLocationId(locationUrl string) (string, error) {
+	parsedURL, error := url.Parse(locationUrl)
+
+	if error != nil {
+		return "", error
+	}
+
+	id := path.Base(parsedURL.Path)
+	return id, nil
+}
+
+func Mapf(config *Config, args []string) error {
 	url := getNextLocationUrl(config)
 
-	locations, err := config.Client.GetLocationArea(&url)
+	locations, err := config.Client.GetLocationAreas(&url)
 
 	if err != nil {
 		return err
 	}
 
 	for _, location := range locations.Results {
-		fmt.Println(location.Name)
+		locationId, _ := getLocationId(location.URL)
+		fmt.Println(locationId, location.Name)
 	}
 
 	config.nextLocationArea = &locations.Next
@@ -39,17 +53,18 @@ func Mapf(config *Config) error {
 	return nil
 }
 
-func MapB(config *Config) error {
+func MapB(config *Config, args []string) error {
 	url := getPreviousLocationUrl(config)
 
-	locations, err := config.Client.GetLocationArea(&url)
+	locations, err := config.Client.GetLocationAreas(&url)
 
 	if err != nil {
 		return err
 	}
 
 	for _, location := range locations.Results {
-		fmt.Println(location.Name)
+		locationId, _ := getLocationId(location.URL)
+		fmt.Println(locationId, location.Name)
 	}
 
 	config.nextLocationArea = &locations.Next

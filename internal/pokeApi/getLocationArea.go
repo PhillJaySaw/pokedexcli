@@ -7,46 +7,33 @@ import (
 	"io"
 )
 
-type LocationAreaResponse struct {
-	Count    int     `json:"count"`
-	Next     string  `json:"next"`
-	Previous *string `json:"previous"`
-	Results  []struct {
-		Name string `json:"name"`
-		URL  string `json:"url"`
-	} `json:"results"`
-}
+func (c *Client) GetLocationArea(locationName string) (locationAreaDetails LocationAreaResponse, error error) {
+	url := fmt.Sprintf("%s/location-area/%s", baseURL, locationName)
 
-func (c *Client) GetLocationArea(locationUrl *string) (res LocationAreaResponse, err error) {
-	url := baseURL + "/location-area"
-	if locationUrl != nil {
-		url = *locationUrl
-	}
-
-	if cachedResponse, ok := c.cache.Get(url); ok {
-		json.Unmarshal(cachedResponse, &res)
-
+	if cachedResponse, exists := c.cache.Get(url); exists {
+		json.Unmarshal(cachedResponse, &locationAreaDetails)
 		return
 	}
 
-	resp, reqError := c.httpClient.Get(url)
+	res, reqError := c.httpClient.Get(url)
+
 	if reqError != nil {
-		err = reqError
+		error = reqError
 		return
 	}
-	defer resp.Body.Close()
+	defer res.Body.Close()
 
-	body, _ := io.ReadAll(resp.Body)
+	body, _ := io.ReadAll(res.Body)
 
-	if resp.StatusCode > 299 {
-		fmt.Printf("Response failed with status code %d", resp.StatusCode)
-		err = errors.New("location request failed")
+	if res.StatusCode > 299 {
+		fmt.Printf("Response failed with status code %d", res.StatusCode)
+		error = errors.New("location request failed")
 		return
 	}
 
 	c.cache.Add(url, body)
 
-	json.Unmarshal(body, &res)
+	json.Unmarshal(body, &locationAreaDetails)
 
 	return
 }

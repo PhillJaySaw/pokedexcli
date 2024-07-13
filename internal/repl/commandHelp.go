@@ -1,13 +1,26 @@
 package repl
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
-func Help(config *Config) error {
+func Help(config *Config, args []string) error {
 	fmt.Println()
 	fmt.Println("Available commands:")
 	fmt.Println()
 
-	for _, cmd := range GetCommands() {
+	commands := GetCommands()
+
+	keys := make([]string, 0, len(commands))
+	for k := range commands {
+		keys = append(keys, k)
+	}
+
+	slices.Sort(keys)
+
+	for _, key := range keys {
+		cmd := commands[key]
 		fmt.Printf("%s: %s\n", cmd.name, cmd.description)
 	}
 
