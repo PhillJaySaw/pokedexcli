@@ -25,7 +25,7 @@ func Catch(config *Config, args []string) error {
 	fmt.Println()
 	fmt.Println("ID: ", pokemonDetails.ID)
 	fmt.Println("NAME: ", pokemonDetails.Name)
-	fmt.Println("BASE EXPERIENCE", pokemonDetails.BaseExperience)
+	fmt.Println("BASE EXPERIENCE: ", pokemonDetails.BaseExperience)
 	fmt.Println()
 
 	return nil
