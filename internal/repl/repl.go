@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/philljaysaw/pokedexcli/internal/pokeApi"
 	"github.com/philljaysaw/pokedexcli/internal/pokecache"
@@ -24,13 +25,19 @@ func StartRepl(cfg *Config) {
 		scanner.Scan()
 
 		prompt := scanner.Text()
-		command, exists := GetCommands()[prompt]
+		args := strings.Split(prompt, " ")
+
+		command, exists := GetCommands()[args[0]]
 
 		if !exists {
 			fmt.Println("Command not found")
 			continue
 		}
 
-		command.Callback(cfg)
+		error := command.Callback(cfg, args[1:])
+
+		if error != nil {
+			fmt.Println(error)
+		}
 	}
 }

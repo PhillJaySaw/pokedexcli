@@ -1,7 +1,7 @@
 package repl
 
 type CliCommand struct {
-	Callback    func(*Config) error
+	Callback    func(c *Config, args []string) error
 	name        string
 	description string
 }
@@ -27,6 +27,11 @@ func GetCommands() map[string]CliCommand {
 			Callback:    MapB,
 			name:        "mapb",
 			description: "Display 20 locations in the pokemon world. Each subsequent call will display the next 20 locations.",
+		},
+		"explore": {
+			Callback:    Explore,
+			name:        "explore",
+			description: "Show list o Pokemon in a given area. Usage: explore {location name/id}",
 		},
 	}
 }
