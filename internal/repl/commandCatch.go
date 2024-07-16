@@ -3,7 +3,19 @@ package repl
 import (
 	"errors"
 	"fmt"
+	"math/rand/v2"
 )
+
+const (
+	MinBaseExperience = 20.00
+	MaxBaseExperience = 500.00
+)
+
+func calculateCatchRate(baseExperience float64) float64 {
+	div := MaxBaseExperience - MinBaseExperience
+	catchRate := 100 * (1 - ((baseExperience - MinBaseExperience) / div))
+	return catchRate
+}
 
 func Catch(config *Config, args []string) error {
 	if len(args) == 0 {
@@ -18,15 +30,24 @@ func Catch(config *Config, args []string) error {
 		return err
 	}
 
-	// TODO: using math/rand simulate catching the pokemon
-	// chance should be based on BaseExperience
-	// caught pokemons should be stored in the pokedex
+	baseExp := pokemonDetails.BaseExperience
+	catchRate := calculateCatchRate(float64(baseExp))
+	randFloat := float64(rand.IntN(100))
 
-	fmt.Println()
-	fmt.Println("ID: ", pokemonDetails.ID)
-	fmt.Println("NAME: ", pokemonDetails.Name)
-	fmt.Println("BASE EXPERIENCE: ", pokemonDetails.BaseExperience)
-	fmt.Println()
+	name := pokemonDetails.Name
+
+	fmt.Println("Pokemon:", name)
+	fmt.Println("base experience", baseExp)
+
+	fmt.Println("catch rate: ", catchRate)
+
+	if randFloat < catchRate {
+		fmt.Printf("You caught %s!!!", name)
+		fmt.Println()
+	} else {
+		fmt.Printf("%s got away...", name)
+		fmt.Println()
+	}
 
 	return nil
 }
