@@ -11,6 +11,7 @@ import (
 
 type Config struct {
 	Client               pokeapi.Client
+	PokeStore            map[string]pokeapi.PokemonResponse
 	nextLocationArea     *string
 	previousLocationArea *string
 }

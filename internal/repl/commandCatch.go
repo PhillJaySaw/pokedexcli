@@ -37,13 +37,12 @@ func Catch(config *Config, args []string) error {
 	name := pokemonDetails.Name
 
 	fmt.Println("Pokemon:", name)
-	fmt.Println("base experience", baseExp)
-
-	fmt.Println("catch rate: ", catchRate)
+	fmt.Println("Base experience", baseExp)
+	fmt.Println("Catch rate: ", catchRate)
 
 	if randFloat < catchRate {
 		fmt.Printf("You caught %s!!!", name)
-		fmt.Println()
+		config.PokeStore[pokemonID] = pokemonDetails
 	} else {
 		fmt.Printf("%s got away...", name)
 		fmt.Println()
