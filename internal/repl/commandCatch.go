@@ -43,6 +43,7 @@ func Catch(config *Config, args []string) error {
 	if randFloat < catchRate {
 		fmt.Printf("You caught %s!!!", name)
 		config.PokeStore[pokemonID] = pokemonDetails
+		fmt.Println()
 	} else {
 		fmt.Printf("%s got away...", name)
 		fmt.Println()
